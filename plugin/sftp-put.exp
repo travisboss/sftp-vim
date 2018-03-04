@@ -1,0 +1,41 @@
+#!/usr/bin/expect -f
+
+# We use sftp to upload file to remote server
+# Take arguemnts
+# user = User
+# password = password
+# server = Server
+# port = port
+# remote_path = remote_path
+# file = the file needed to upload.
+
+if {[llength $argv] != 6} {
+	puts "usages: sftp.exp user password server port remote_path file"
+	exit 1
+}
+
+set user  [lrange $argv 0 0]
+set password  [lrange $argv 1 1]
+set server  [lrange $argv 2 2]
+set port   [lrange $argv 3 3]
+set remote_path  [lrange $argv 4 4]
+set file  [lrange $argv 5 5]
+
+
+set timeout 60
+
+spawn sftp -P $port $user@$server:$remote_path
+
+match_max 200
+
+expect "*?assword:*"
+send -- "$password\r"
+
+expect "sftp>"
+send -- "put $file\r"
+
+expect "sftp>"
+send -- "eixt\r"
+
+send eof
+
