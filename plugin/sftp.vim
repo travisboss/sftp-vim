@@ -1,5 +1,5 @@
 " Script Variables
-let s:configName = 'sftp-config.json'
+let s:configName = 'xftp-config.json'
 let s:configFile = ''
 let s:config = ''
 
